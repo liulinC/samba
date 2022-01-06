@@ -615,6 +615,14 @@ static NTSTATUS gensec_spnego_client_negTokenInit_step(
 		 * And try the next one...
 		 */
 		n->all_idx += 1;
+
+		/*
+		* Skip ntlmssp for security reason
+		*/
+		if (strcasecmp(next, "ntlmssp") == 0 ) {
+			DEBUG(10, ("skip ntlmssp for security reason"));
+			return status;
+		}
 	}
 
 	for (; n->all_sec[n->all_idx].op != NULL; n->all_idx++) {
